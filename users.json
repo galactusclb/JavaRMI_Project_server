@@ -1,0 +1,17 @@
+[
+	{
+		"role": "admin",
+		"uname": "admin",
+		"password": "password"
+	},
+	{
+		"role": "user",
+		"uname": "chanaka",
+		"password": "ggwp"
+	},
+	{
+		"role": "user",
+		"uname": "lakshan",
+		"password": "ggwp"
+	}
+]
