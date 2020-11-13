@@ -4,6 +4,9 @@ public class UserBean {
 	private String role;
 	private String uname;
 	private String password;
+	private boolean valid;
+	
+	
 	public String getRole() {
 		return role;
 	}
@@ -21,6 +24,12 @@ public class UserBean {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public boolean isValid() {
+		return valid;
+	}
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 	
 	

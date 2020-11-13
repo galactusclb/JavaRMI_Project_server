@@ -1,0 +1,13 @@
+package com.lx.Interfaces;
+
+import java.rmi.Remote;
+import java.util.List;
+
+import com.lx.Beans.FeedBackBean;
+
+public interface FeedBackI extends Remote{
+	public List<FeedBackBean> getFeedBack() throws Exception;
+	public String getAllFeedBack() throws Exception;
+	public String addFeedBack(String type,String question,String answers,int order) throws Exception;
+	public String clientFeedBack(String uid,String output) throws Exception;
+}

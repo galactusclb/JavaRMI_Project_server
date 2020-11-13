@@ -12,7 +12,10 @@ public class TheServer {
 		
 		UserEventsC user = new UserEventsC();
 		reg.rebind("UserEvents", user);
-
+		
+		FeedBakc feed = new FeedBakc();
+		reg.rebind("Feedbacks", feed);
+		
 	}
 
 }

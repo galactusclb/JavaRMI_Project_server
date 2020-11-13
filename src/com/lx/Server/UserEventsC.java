@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.lx.Beans.UserBean;
+import com.lx.Dao.UserDao;
 import com.lx.Interfaces.UsersEvents_Interface;
 
 public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Interface{
@@ -22,10 +23,11 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 	
 	private ObjectMapper mapper;
 	private UserBean[] user;
-	
+	private UserDao dao;
 	
 	protected UserEventsC() throws RemoteException {
 		super();
+		dao = new UserDao();
 	}
 
 	@Override
@@ -34,29 +36,38 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 		Boolean resulte = false;
 		String role = null ;
 		mapper = new ObjectMapper();
+		UserBean userbean = new UserBean();
 		
-		try {
-			user = mapper.readValue(new File("users.json"), UserBean[].class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		userbean.setUname(username);
+		userbean.setPassword(password);
 		
-		for (int i = 0; i < user.length; i++) {
-			if (username.equals(user[i].getUname()) && password.equals(user[i].getPassword())) {
-				resulte = true;
-				if (user[i].getRole().equals("admin")) {
-					role = "admin";
-				}else {
-					role="user";
-				}
-			}
-		}
+		userbean = dao.loginCheck(userbean);
 		
-		if (resulte) {
+		System.out.println("ub : " +userbean.getRole());
+		role = userbean.getRole();
+		
+//		try {
+//			user = mapper.readValue(new File("users.json"), UserBean[].class);
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+//		for (int i = 0; i < user.length; i++) {
+//			if (username.equals(user[i].getUname()) && password.equals(user[i].getPassword())) {
+//				resulte = true;
+//				if (user[i].getRole().equals("admin")) {
+//					role = "admin";
+//				}else {
+//					role="user";
+//				}
+//			}
+//		}
+		
+		if (role != null && !role.trim().isEmpty()) {
 			return role;
 		}else {
 			return null;
