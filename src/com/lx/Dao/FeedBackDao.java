@@ -22,13 +22,14 @@ public class FeedBackDao {
 		PreparedStatement ps = null;
 
 		try {
-			String sql = "INSERT INTO feedback (type,q,answers,qOrder)VALUES(?,?,?,?)";
+			String sql = "INSERT INTO feedback (type,q,answers,qOrder,status)VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(sql);
 
 			ps.setString(1, type);
 			ps.setString(2, question);
 			ps.setString(3, answers);
 			ps.setInt(4, order);
+			ps.setString(5, "1");
 
 			int i = ps.executeUpdate();
 
@@ -68,16 +69,21 @@ public class FeedBackDao {
 		}
 	}
 
-	public List<FeedBackBean> getAllFeedbacks() {
+	public List<FeedBackBean> getAllFeedbacks(Boolean status ) {
 		List<FeedBackBean> QaA = new ArrayList<FeedBackBean>();
 		PreparedStatement ps = null;
 		try {
-			String sql = "SELECT * FROM feedback";
+			String sql = null;
+			if(status == true) {
+				sql = "SELECT * FROM feedback WHERE status = 1";				
+			}else {
+				sql = "SELECT * FROM feedback";
+			}
 			ps = conn.prepareStatement(sql);
 
 			ResultSet result = ps.executeQuery();
 
-			String[] answers = new String[5];
+//			String[] answers = new String[5];
 
 			while (result.next()) {
 				FeedBackBean fb = new FeedBackBean();

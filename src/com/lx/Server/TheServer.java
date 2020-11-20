@@ -11,9 +11,10 @@ public class TheServer {
 		Registry reg = LocateRegistry.createRegistry(1099);
 		
 		UserEventsC user = new UserEventsC();
-		reg.rebind("UserEvents", user);
 		
 		FeedBakc feed = new FeedBakc();
+
+		reg.rebind("UserEvents", user);
 		reg.rebind("Feedbacks", feed);
 		
 	}

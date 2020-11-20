@@ -29,10 +29,10 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 	@Override
 	public List<FeedBackBean> getFeedBack() throws RemoteException {
 		List<FeedBackBean> modal1 = null;
-		modal1 = dao.getAllFeedbacks();
-		for (FeedBackBean fb : modal1) {
-			System.out.println("  type : " + fb.getType());
-		}
+//		modal1 = dao.getAllFeedbacks();
+//		for (FeedBackBean fb : modal1) {
+//			System.out.println("  type : " + fb.getType());
+//		}
 		return modal1;
 	}
 
@@ -60,13 +60,13 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 	}
 
 	@Override
-	public String getAllFeedBack() throws Exception {
+	public String getAllFeedBack(Boolean status) throws Exception {
 		List<FeedBackBean> modal = null;
 		
 		JSONArray objArray = new JSONArray();
 		String response=null;
 		
-		modal = dao.getAllFeedbacks();
+		modal = dao.getAllFeedbacks(status);
 		for (FeedBackBean fb : modal) {
 			JSONObject subObj = new JSONObject();
 //			System.out.println("  type : " + fb.getType());
