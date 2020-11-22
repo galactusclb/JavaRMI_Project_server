@@ -43,6 +43,33 @@ public class FeedBackDao {
 			return false;
 		}
 	}
+	
+	public Boolean editFeedBack(int qId,String type, String question, String answers, int order) {
+		PreparedStatement ps = null;
+
+		try {
+			String sql = "UPDATE feedback SET type=?,q=?,answers=?,qOrder=?,status=? WHERE _id=?";
+			ps = conn.prepareStatement(sql);
+
+			ps.setString(1, type);
+			ps.setString(2, question);
+			ps.setString(3, answers);
+			ps.setInt(4, order);
+			ps.setString(5, "1");
+			ps.setInt(6, qId);
+
+			int i = ps.executeUpdate();
+
+			if (i > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public Boolean addClientFeedBack(String uid,String QA) {
 		String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH.mm.ss").format(new Date());
@@ -105,6 +132,44 @@ public class FeedBackDao {
 
 			result.close();
 			return QaA;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public FeedBackBean getFeedBackByQid(int qid ) {
+		
+		FeedBackBean fb = new FeedBackBean();
+		PreparedStatement ps = null;
+		try {
+			String sql = null;
+			
+			sql = "SELECT * FROM feedback WHERE _id = "+qid;				
+			
+			ps = conn.prepareStatement(sql);
+
+			ResultSet result = ps.executeQuery();
+			
+			while (result.next()) {
+
+				fb.set_id(result.getInt("_id"));
+				fb.setQuestion(result.getString("q"));
+				fb.setOrder(result.getInt("qOrder"));
+				fb.setType(result.getString("type"));
+				fb.setAnswers(result.getString("answers"));
+			}
+
+			result.close();
+			return fb;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
