@@ -159,4 +159,17 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 		return response;
 	}
 
+	@Override
+	public Boolean deleteFeedBackByQid(int qid) throws Exception {
+		
+		boolean res =  dao.deleteFeedBackByQid(qid);
+		
+		if (res) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
 }

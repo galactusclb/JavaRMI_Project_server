@@ -43,8 +43,8 @@ public class FeedBackDao {
 			return false;
 		}
 	}
-	
-	public Boolean editFeedBack(int qId,String type, String question, String answers, int order) {
+
+	public Boolean editFeedBack(int qId, String type, String question, String answers, int order) {
 		PreparedStatement ps = null;
 
 		try {
@@ -71,7 +71,7 @@ public class FeedBackDao {
 		}
 	}
 
-	public Boolean addClientFeedBack(String uid,String QA) {
+	public Boolean addClientFeedBack(String uid, String QA) {
 		String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH.mm.ss").format(new Date());
 		PreparedStatement ps = null;
 
@@ -96,14 +96,14 @@ public class FeedBackDao {
 		}
 	}
 
-	public List<FeedBackBean> getAllFeedbacks(Boolean status ) {
+	public List<FeedBackBean> getAllFeedbacks(Boolean status) {
 		List<FeedBackBean> QaA = new ArrayList<FeedBackBean>();
 		PreparedStatement ps = null;
 		try {
 			String sql = null;
-			if(status == true) {
-				sql = "SELECT * FROM feedback WHERE status = 1";				
-			}else {
+			if (status == true) {
+				sql = "SELECT * FROM feedback WHERE status = 1";
+			} else {
 				sql = "SELECT * FROM feedback";
 			}
 			ps = conn.prepareStatement(sql);
@@ -145,20 +145,20 @@ public class FeedBackDao {
 			}
 		}
 	}
-	
-	public FeedBackBean getFeedBackByQid(int qid ) {
-		
+
+	public FeedBackBean getFeedBackByQid(int qid) {
+
 		FeedBackBean fb = new FeedBackBean();
 		PreparedStatement ps = null;
 		try {
 			String sql = null;
-			
-			sql = "SELECT * FROM feedback WHERE _id = "+qid;				
-			
+
+			sql = "SELECT * FROM feedback WHERE _id = " + qid;
+
 			ps = conn.prepareStatement(sql);
 
 			ResultSet result = ps.executeQuery();
-			
+
 			while (result.next()) {
 
 				fb.set_id(result.getInt("_id"));
@@ -173,6 +173,32 @@ public class FeedBackDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public boolean deleteFeedBackByQid(int id) {
+		PreparedStatement ps = null;
+		try {
+			String sql = "DELETE FROM feedback WHERE _id=?";
+
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, id);
+
+			ps.execute();
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		} finally {
 			if (ps != null) {
 				try {
