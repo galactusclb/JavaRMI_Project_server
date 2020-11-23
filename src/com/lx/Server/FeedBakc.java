@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.lx.Beans.AnsweredQABean;
 import com.lx.Beans.FeedBackBean;
 import com.lx.Dao.FeedBackDao;
 import com.lx.Interfaces.FeedBackI;
@@ -87,33 +88,6 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String clientFeedBack(String uid, String output) throws Exception {
-		JSONArray objArray = new JSONArray();
-		String js = null;
-
-		FeedBackBean[] model = mapper.readValue(output, FeedBackBean[].class);
-		for (FeedBackBean fb : model) {
-			System.out.println("gg : " + fb.get_id() + " ansg :" + fb.getSelectedAnswer());
-
-			JSONObject subObj = new JSONObject();
-//			System.out.println("  type : " + fb.getType());
-			subObj.put("_id", fb.get_id());
-			subObj.put("type", fb.getType());
-			subObj.put("question", fb.getQuestion());
-			subObj.put("selectedAnswer", fb.getSelectedAnswer());
-
-			objArray.add(subObj);
-		}
-
-		js = objArray.toString();
-
-		dao.addClientFeedBack(uid, output);
-
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
 	public String editFeedBack(int qId, String type, String question, String answers, int order) throws Exception {
 
 		boolean res = dao.editFeedBack(qId, type, question, answers, order);
@@ -161,15 +135,90 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 
 	@Override
 	public Boolean deleteFeedBackByQid(int qid) throws Exception {
-		
-		boolean res =  dao.deleteFeedBackByQid(qid);
-		
+
+		boolean res = dao.deleteFeedBackByQid(qid);
+
 		if (res) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
 
+//	clinetFeedBack section
+	@SuppressWarnings("unchecked")
+	@Override
+	public String clientFeedBack(String uid, String output) throws Exception {
+		JSONArray objArray = new JSONArray();
+		String js = null;
+
+		FeedBackBean[] model = mapper.readValue(output, FeedBackBean[].class);
+		for (FeedBackBean fb : model) {
+			System.out.println("gg : " + fb.get_id() + " ansg :" + fb.getSelectedAnswer());
+
+			JSONObject subObj = new JSONObject();
+//			System.out.println("  type : " + fb.getType());
+			subObj.put("_id", fb.get_id());
+			subObj.put("type", fb.getType());
+			subObj.put("question", fb.getQuestion());
+			subObj.put("selectedAnswer", fb.getSelectedAnswer());
+
+			objArray.add(subObj);
+		}
+
+		js = objArray.toString();
+
+		dao.addClientFeedBack(uid, output);
+
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getclientFeedbackSummaryByQid(int qid) throws Exception {
+		JSONObject finalObj = new JSONObject();
+		JSONArray objArray = new JSONArray();
+		String output = null;//for return 
+		
+		
+		FeedBackBean fb = dao.getFeedBackByQid(qid);
+		String answers = fb.getAnswers();
+		
+		String[] answersArray = answers.split(",");
+		
+		List<AnsweredQABean> QA= dao.getclientFeedbackSummaryByQid(qid);
+		
+		//for splited answers
+		
+		finalObj.put("questionsCount", QA.size());
+		
+		
+		for (String ans : answersArray) {
+			int count =0;
+			if (QA != null) {
+				//for get count from selected answer in QA column in clientfeedback table
+				for (AnsweredQABean answeredQABean : QA) {
+//					System.out.println(answeredQABean.getSelectedAnswer());
+					if (ans.equalsIgnoreCase(answeredQABean.getSelectedAnswer())) {
+						count +=1;
+					}
+				}
+			}
+//			System.out.println(ans +" - " +count);
+			
+			JSONObject subObj = new JSONObject();
+			subObj.put("answer", ans);
+			subObj.put("count", count);
+			
+			objArray.add(subObj);
+		}
+		
+		finalObj.put("answersCount", objArray);
+		output = finalObj.toString();
+		
+		System.out.println(output);
+		
+		return output;
+	}
 }
