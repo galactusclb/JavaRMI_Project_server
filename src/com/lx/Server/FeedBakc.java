@@ -217,7 +217,6 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 		finalObj.put("answersCount", objArray);
 		output = finalObj.toString();
 		
-		System.out.println(output);
 		
 		return output;
 	}
