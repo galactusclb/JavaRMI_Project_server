@@ -13,8 +13,13 @@ import com.lx.Beans.FeedBackBean;
 import com.lx.Dao.FeedBackDao;
 import com.lx.Interfaces.FeedBackI;
 
-public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
+public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 
+	boolean b = 5 < 0;
+	
+	Character g ;
+	
+	byte x = -12;
 	/**
 	 * 
 	 */
@@ -60,6 +65,8 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 			return response;
 		}
 	}
+	
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -220,4 +227,6 @@ public class FeedBakc extends UnicastRemoteObject implements FeedBackI {
 		
 		return output;
 	}
+
+	
 }
