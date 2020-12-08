@@ -1,21 +1,7 @@
 package com.lx.Server;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.List;
-import java.util.Map;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ObjectNode;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class TheServer {
 
@@ -30,7 +16,6 @@ public class TheServer {
 
 		reg.rebind("UserEvents", user);
 		reg.rebind("Feedbacks", feed);
-
 		
 		
 		

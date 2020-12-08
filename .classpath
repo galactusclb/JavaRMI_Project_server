@@ -8,5 +8,9 @@
 	<classpathentry kind="lib" path="external_library_files/mysql-connector-java-5.1.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/chana/Downloads/Compressed/Java Jar files/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chana/Downloads/Compressed/Java Jar files/httpclient-4.5.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chana/Downloads/Compressed/Java Jar files/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chana/Downloads/Compressed/Java Jar files/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/chana/Downloads/Compressed/Java Jar files/httpcore-4.4.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

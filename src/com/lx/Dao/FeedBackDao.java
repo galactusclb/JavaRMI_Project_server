@@ -14,6 +14,7 @@ import com.lx.Beans.AnsweredQABean;
 import com.lx.Beans.ClientFeedbackBean;
 import com.lx.Beans.FeedBackBean;
 import com.lx.DbConnection.ConnectionProvider;
+import com.mysql.jdbc.Statement;
 
 public class FeedBackDao {
 	private Connection conn;
@@ -175,6 +176,48 @@ public class FeedBackDao {
 			}
 
 			result.close();
+			return fb;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public ClientFeedbackBean getClientFeedBackByClientId(String uid) {
+
+		ClientFeedbackBean fb = new ClientFeedbackBean();
+		PreparedStatement ps = null;
+		try {
+			String sql = null;
+
+			sql = "SELECT * FROM clientfeedback WHERE _clientId = ? ORDER BY _id DESC LIMIT 1";
+
+			ps = conn.prepareStatement(sql);
+
+			ps.setString(1, uid);
+			
+			ResultSet result = ps.executeQuery();
+			
+			 
+			
+			while (result.next()) {
+//				System.out.println(result.getString("type"));
+				fb.set_id(result.getInt("_id"));
+				fb.set_clientId(result.getString("_clientId"));
+				fb.setQA(result.getString("QA"));
+				fb.setDate(result.getString("date"));
+			}
+
+			result.close();
+			
 			return fb;
 		} catch (Exception e) {
 			e.printStackTrace();

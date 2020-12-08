@@ -25,4 +25,7 @@ public interface FeedBackI extends Remote{
 	public String clientFeedBack(String uid,String output) throws Exception;
 
 	public String getclientFeedbackSummaryByQid(int qid) throws Exception;
+	
+	public String getclientFeedbackSummaryByClientId(String uid) throws Exception;
+	
 }

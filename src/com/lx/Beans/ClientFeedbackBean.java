@@ -1,8 +1,8 @@
 package com.lx.Beans;
 
 public class ClientFeedbackBean {
-	private int _id, _clientId;
-	private String QA, date;
+	private int _id;
+	private String QA, date,_clientId;
 	
 	
 	public int get_id() {
@@ -11,10 +11,10 @@ public class ClientFeedbackBean {
 	public void set_id(int _id) {
 		this._id = _id;
 	}
-	public int get_clientId() {
+	public String get_clientId() {
 		return _clientId;
 	}
-	public void set_clientId(int _clientId) {
+	public void set_clientId(String _clientId) {
 		this._clientId = _clientId;
 	}
 	public String getQA() {

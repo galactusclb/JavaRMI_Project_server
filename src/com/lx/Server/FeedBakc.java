@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.lx.Beans.AnsweredQABean;
+import com.lx.Beans.ClientFeedbackBean;
 import com.lx.Beans.FeedBackBean;
 import com.lx.Dao.FeedBackDao;
 import com.lx.Interfaces.FeedBackI;
@@ -222,6 +223,33 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 		}
 		
 		finalObj.put("answersCount", objArray);
+		output = finalObj.toString();
+		
+		
+		return output;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String getclientFeedbackSummaryByClientId(String uid) throws Exception {
+		JSONObject finalObj = new JSONObject();
+		String output = null;//for return 
+		
+		ClientFeedbackBean cfb = dao.getClientFeedBackByClientId(uid);
+		
+		//for splited answers
+//		String qa = fb.getQA();
+//		FeedBackBean[] model = mapper.readValue(qa, FeedBackBean[].class);
+		
+//		for (FeedBackBean feedBackBean : model) {
+//			System.out.println(feedBackBean.getQuestion()+ " : "+feedBackBean.getSelectedAnswer());
+//		}
+		
+		finalObj.put("_id", cfb.get_id());
+		finalObj.put("_clientId", cfb.get_clientId());
+		finalObj.put("QA", cfb.getQA());
+		finalObj.put("date", cfb.getDate());
+		
+		
 		output = finalObj.toString();
 		
 		
