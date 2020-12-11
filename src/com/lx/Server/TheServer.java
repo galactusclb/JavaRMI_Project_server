@@ -18,6 +18,7 @@ public class TheServer {
 		reg.rebind("Feedbacks", feed);
 		
 		
+//		user.updatePassword("chanaska", "ggwp123@");
 		
 		//http access
 //		try {

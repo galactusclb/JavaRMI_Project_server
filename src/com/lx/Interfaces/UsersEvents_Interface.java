@@ -12,5 +12,7 @@ public interface UsersEvents_Interface extends Remote{
 	public String getUsers() throws Exception;
 
 	public String getUserDetails(String uname) throws Exception;
+	
+	public String updatePassword(String uid,String password) throws Exception;
 
 }

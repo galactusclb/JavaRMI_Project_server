@@ -223,4 +223,50 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 			return null;
 		}
 	}
+
+	@Override
+	public String updatePassword(String uid, String password) throws Exception {
+		
+		try {
+
+			String url = "http://localhost:3000/api/updatepassword";
+			HttpClient httpClient = HttpClientBuilder.create().build();
+			HttpPost post = new HttpPost(url);
+
+			JSONObject obj = new JSONObject();
+
+			obj.put("uid", uid);
+			obj.put("password", password);
+
+			StringEntity postingString = new StringEntity(obj.toString());
+			post.setEntity(postingString);
+			post.setHeader("Content-type", "application/json");
+			
+			HttpResponse response = httpClient.execute(post);
+			
+			InputStream ips = response.getEntity().getContent();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(ips, "UTF-8"));
+
+			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+//	            throw new Exception(response.getStatusLine().getReasonPhrase());
+				return null;
+			}
+
+			StringBuilder sb = new StringBuilder();
+			String s;
+			while ((s = buf.readLine()) != null) {
+				sb.append(s);
+			}
+
+			buf.close();
+			ips.close();
+			System.out.println(sb.toString());
+
+			return sb.toString();
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 }
