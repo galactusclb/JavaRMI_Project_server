@@ -19,8 +19,7 @@ import com.mysql.jdbc.Statement;
 public class FeedBackDao {
 	private Connection conn;
 	private ObjectMapper mapper = new ObjectMapper();
-	
-	
+
 	public FeedBackDao() {
 		conn = ConnectionProvider.getConnection();
 	}
@@ -109,9 +108,9 @@ public class FeedBackDao {
 		try {
 			String sql = null;
 			if (status == true) {
-				sql = "SELECT * FROM feedback WHERE status = 1";
+				sql = "SELECT * FROM feedback WHERE status = 1 ORDER BY qOrder ASC";
 			} else {
-				sql = "SELECT * FROM feedback";
+				sql = "SELECT * FROM feedback ORDER BY qOrder ASC";
 			}
 			ps = conn.prepareStatement(sql);
 
@@ -153,6 +152,39 @@ public class FeedBackDao {
 		}
 	}
 
+	public List<Integer> getFeedbacksOrderNumbers() {
+		PreparedStatement ps = null;
+		try {
+			String sql = null;
+			
+			sql = "SELECT qOrder FROM feedback GROUP BY qOrder";
+			ps = conn.prepareStatement(sql);
+
+			ResultSet result = ps.executeQuery();
+
+			List<Integer> num = new ArrayList<>();
+			
+			while (result.next()) {
+				System.out.println(result.getInt("qOrder"));
+				num.add(result.getInt("qOrder"));
+			}
+
+			result.close();
+			return num;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public FeedBackBean getFeedBackByQid(int qid) {
 
 		FeedBackBean fb = new FeedBackBean();
@@ -165,7 +197,7 @@ public class FeedBackDao {
 			ps = conn.prepareStatement(sql);
 
 			ResultSet result = ps.executeQuery();
-			
+
 			while (result.next()) {
 //				System.out.println(result.getString("type"));
 				fb.set_id(result.getInt("_id"));
@@ -190,7 +222,7 @@ public class FeedBackDao {
 			}
 		}
 	}
-	
+
 	public ClientFeedbackBean getClientFeedBackByClientId(String uid) {
 
 		ClientFeedbackBean fb = new ClientFeedbackBean();
@@ -203,11 +235,9 @@ public class FeedBackDao {
 			ps = conn.prepareStatement(sql);
 
 			ps.setString(1, uid);
-			
+
 			ResultSet result = ps.executeQuery();
-			
-			 
-			
+
 			while (result.next()) {
 //				System.out.println(result.getString("type"));
 				fb.set_id(result.getInt("_id"));
@@ -217,7 +247,7 @@ public class FeedBackDao {
 			}
 
 			result.close();
-			
+
 			return fb;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -243,7 +273,7 @@ public class FeedBackDao {
 			ps.setInt(1, id);
 
 			ps.execute();
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,16 +306,16 @@ public class FeedBackDao {
 				String QA = result.getString("QA");
 //				System.out.println(QA);
 				AnsweredQABean[] model = mapper.readValue(QA, AnsweredQABean[].class);
-				
-				for (AnsweredQABean qaModel: model) {
+
+				for (AnsweredQABean qaModel : model) {
 					if (qaModel.get_id() == qid) {
 //						System.out.println(result.getInt("_id"));
 						qidList.add(qaModel);
 					}
 				}
-				
+
 //				ClientFeedbackBean cl = new ClientFeedbackBean();
-				
+
 //				fb.set_id(result.getInt("_id"));
 //				fb.setQuestion(result.getString("q"));
 //				fb.setOrder(result.getInt("qOrder"));

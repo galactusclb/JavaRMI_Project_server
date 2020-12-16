@@ -93,6 +93,15 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 		response = objArray.toString();
 		return response;
 	}
+	
+	
+	@Override
+	public List<Integer> getFeedbacksOrderNumbers() throws Exception {
+		List<Integer> modal = null;
+		modal = dao.getFeedbacksOrderNumbers();
+
+		return modal;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

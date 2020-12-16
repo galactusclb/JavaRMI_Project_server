@@ -90,54 +90,11 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 	}
 
 	@Override
-	public String getUsers() throws Exception {
-		JSONArray jArray = null;
-
-		try {
-
-//			String url = "http://localhost:3000/api/getUsersList";
-			String url = "https://hiruwaterbottlesystemapi.herokuapp.com/api/getUsersList";
-			URL obj = new URL(url);
-
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-			int responsStatus = con.getResponseCode();
-			System.out.println(responsStatus);
-
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null) {
-				response.append(inputLine);
-			}
-
-			in.close();
-
-//			System.out.println(response.toString());
-
-			jArray = (JSONArray) new JSONTokener(response.toString()).nextValue();
-			// once you get the array, you may check items like
-
-			for (int i = 1; i < jArray.length(); i++) {
-				JSONObject jObject = jArray.getJSONObject(i);
-//				System.out.println(jObject.getString("userID") + " " + jObject.getString("uName") + " "
-//						+ jObject.getString("role"));
-			}
-
-			return jArray.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
 	public String LoginUsersApi(String username, String password) throws Exception {
 		try {
 
-			String url = "http://localhost:3000/api/login";
+//			String url = "http://localhost:3000/api/login";
+			String url = "https://clbnodermiuserapi.herokuapp.com/api/login";
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpPost post = new HttpPost(url);
 
@@ -179,11 +136,14 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 	}
 
 	@Override
-	public String getUserDetails(String uname) throws Exception {
+	public String getUsers() throws Exception {
+		JSONArray jArray = null;
 
 		try {
 
-			String url = "http://localhost:3000/api/userdetails?uname=" + uname;
+//			String url = "http://localhost:3000/api/getUsersList";
+			String url = "https://hiruwaterbottlesystemapi.herokuapp.com/api/getUsersList";
+//			String url="https://clbnodermiuserapi.herokuapp.com/api/userdetails?uname=";
 			URL obj = new URL(url);
 
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -201,14 +161,57 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 			}
 
 			in.close();
-			
+
+//			System.out.println(response.toString());
+
+			jArray = (JSONArray) new JSONTokener(response.toString()).nextValue();
+			// once you get the array, you may check items like
+
+			for (int i = 1; i < jArray.length(); i++) {
+				JSONObject jObject = jArray.getJSONObject(i);
+//				System.out.println(jObject.getString("userID") + " " + jObject.getString("uName") + " "
+//						+ jObject.getString("role"));
+			}
+
+			return jArray.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public String getUserDetails(String uname) throws Exception {
+
+		try {
+
+//			String url = "http://localhost:3000/api/userdetails?uname=" + uname;
+			String url = "https://clbnodermiuserapi.herokuapp.com/api/userdetails?uname=" + uname;
+			URL obj = new URL(url);
+
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+			int responsStatus = con.getResponseCode();
+			System.out.println(responsStatus);
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+
+			in.close();
+
 			ClientFeedbackBean cfb = daoF.getClientFeedBackByClientId(uname);
 
 			System.out.println(cfb.getDate());
 //			System.out.println(response.toString());
 
 			JSONObject jsonobj = new JSONObject(response.toString());
-			
+
 			jsonobj.put("date", cfb.getDate());
 //			
 			System.out.println(jsonobj.toString());
@@ -226,10 +229,11 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 
 	@Override
 	public String updatePassword(String uid, String password) throws Exception {
-		
+
 		try {
 
-			String url = "http://localhost:3000/api/updatepassword";
+//			String url = "http://localhost:3000/api/updatepassword";
+			String url = "https://clbnodermiuserapi.herokuapp.com/api/updatepassword";
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			HttpPost post = new HttpPost(url);
 
@@ -241,9 +245,9 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 			StringEntity postingString = new StringEntity(obj.toString());
 			post.setEntity(postingString);
 			post.setHeader("Content-type", "application/json");
-			
+
 			HttpResponse response = httpClient.execute(post);
-			
+
 			InputStream ips = response.getEntity().getContent();
 			BufferedReader buf = new BufferedReader(new InputStreamReader(ips, "UTF-8"));
 
@@ -263,10 +267,10 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 			System.out.println(sb.toString());
 
 			return sb.toString();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
 }
