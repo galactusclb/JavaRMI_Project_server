@@ -47,7 +47,7 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 
 	@Override
 	public String Login(String username, String password) throws Exception {
-		System.out.println("user :" + username + " password : " + password);
+//		System.out.println("user :" + username + " password : " + password);
 		Boolean resulte = false;
 		String role = null;
 		mapper = new ObjectMapper();

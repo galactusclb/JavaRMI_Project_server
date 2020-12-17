@@ -24,7 +24,7 @@ public class FeedBackDao {
 		conn = ConnectionProvider.getConnection();
 	}
 
-	public Boolean addFeedBack(String type, String question, String answers, int order) {
+	public Boolean addFeedBack(String type, String question, String answers, int order,boolean status) {
 		PreparedStatement ps = null;
 
 		try {
@@ -35,7 +35,13 @@ public class FeedBackDao {
 			ps.setString(2, question);
 			ps.setString(3, answers);
 			ps.setInt(4, order);
-			ps.setString(5, "1");
+//			ps.setString(5, "1");
+			
+			if (status) {
+				ps.setInt(5, 1);				
+			} else {
+				ps.setInt(5, 0);	
+			}
 
 			int i = ps.executeUpdate();
 
@@ -50,7 +56,7 @@ public class FeedBackDao {
 		}
 	}
 
-	public Boolean editFeedBack(int qId, String type, String question, String answers, int order) {
+	public Boolean editFeedBack(int qId, String type, String question, String answers, int order, boolean status) {
 		PreparedStatement ps = null;
 
 		try {
@@ -61,7 +67,11 @@ public class FeedBackDao {
 			ps.setString(2, question);
 			ps.setString(3, answers);
 			ps.setInt(4, order);
-			ps.setString(5, "1");
+			if (status) {
+				ps.setInt(5, 1);				
+			} else {
+				ps.setInt(5, 0);	
+			}
 			ps.setInt(6, qId);
 
 			int i = ps.executeUpdate();
@@ -125,7 +135,12 @@ public class FeedBackDao {
 				fb.setQuestion(result.getString("q"));
 				fb.setOrder(result.getInt("qOrder"));
 				fb.setType(result.getString("type"));
-
+				
+				if (Integer.parseInt(result.getString("status")) == 1) {
+					fb.setStatus(true);					
+				} else {
+					fb.setStatus(false);		
+				}
 //				System.out.println(fb.getQuestion());
 
 //				answers[0] = "yes";
@@ -165,7 +180,7 @@ public class FeedBackDao {
 			List<Integer> num = new ArrayList<>();
 			
 			while (result.next()) {
-				System.out.println(result.getInt("qOrder"));
+//				System.out.println(result.getInt("qOrder"));
 				num.add(result.getInt("qOrder"));
 			}
 
@@ -205,6 +220,12 @@ public class FeedBackDao {
 				fb.setOrder(result.getInt("qOrder"));
 				fb.setType(result.getString("type"));
 				fb.setAnswers(result.getString("answers"));
+				
+				if (Integer.parseInt(result.getString("status")) == 1) {
+					fb.setStatus(true);					
+				} else {
+					fb.setStatus(false);		
+				}
 			}
 
 			result.close();

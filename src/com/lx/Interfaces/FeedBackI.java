@@ -16,9 +16,9 @@ public interface FeedBackI extends Remote{
 	
 	public String getFeedBackByQid(int qid) throws Exception;
 	
-	public String addFeedBack(String type,String question,String answers,int order) throws Exception;
+	public String addFeedBack(String type,String question,String answers,int order,boolean status) throws Exception;
 	
-	public String editFeedBack(int questionId,String type,String question,String answers,int order) throws Exception;
+	public String editFeedBack(int questionId,String type,String question,String answers,int order,boolean status) throws Exception;
 	
 	public Boolean deleteFeedBackByQid(int qid) throws Exception;
 	

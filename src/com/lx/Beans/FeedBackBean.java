@@ -7,8 +7,15 @@ public class FeedBackBean {
 	private String question;
 	private String answers;
 	private String selectedAnswer;
+	private boolean status;
 	
 	
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 	public int get_id() {
 		return _id;
 	}

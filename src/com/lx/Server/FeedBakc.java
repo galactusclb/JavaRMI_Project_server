@@ -45,8 +45,8 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String addFeedBack(String type, String question, String answers, int order) throws Exception {
-		boolean res = dao.addFeedBack(type, question, answers, order);
+	public String addFeedBack(String type, String question, String answers, int order,boolean status) throws Exception {
+		boolean res = dao.addFeedBack(type, question, answers, order,status);
 
 		JSONObject obj = new JSONObject();
 		String response = null;
@@ -105,9 +105,9 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String editFeedBack(int qId, String type, String question, String answers, int order) throws Exception {
+	public String editFeedBack(int qId, String type, String question, String answers, int order,boolean status) throws Exception {
 
-		boolean res = dao.editFeedBack(qId, type, question, answers, order);
+		boolean res = dao.editFeedBack(qId, type, question, answers, order,status);
 
 		JSONObject obj = new JSONObject();
 		String response = null;
@@ -143,7 +143,8 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 		subObj.put("question", modal.getQuestion());
 		subObj.put("answers", modal.getAnswers());
 		subObj.put("order", modal.getOrder());
-
+		subObj.put("status", modal.isStatus());
+		
 		objArray.add(subObj);
 
 		response = objArray.toString();
