@@ -39,56 +39,16 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 	private UserDao dao;
 	private FeedBackDao daoF;
 
+	
+	//user events action through web API  methods implements in this class 
 	protected UserEventsC() throws RemoteException {
 		super();
 		dao = new UserDao();
 		daoF = new FeedBackDao();
 	}
 
-	@Override
-	public String Login(String username, String password) throws Exception {
-//		System.out.println("user :" + username + " password : " + password);
-		Boolean resulte = false;
-		String role = null;
-		mapper = new ObjectMapper();
-		UserBean userbean = new UserBean();
-
-		userbean.setUname(username);
-		userbean.setPassword(password);
-
-		userbean = dao.loginCheck(userbean);
-
-		System.out.println("ub : " + userbean.getRole());
-		role = userbean.getRole();
-
-//		try {
-//			user = mapper.readValue(new File("users.json"), UserBean[].class);
-//		} catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
-//		for (int i = 0; i < user.length; i++) {
-//			if (username.equals(user[i].getUname()) && password.equals(user[i].getPassword())) {
-//				resulte = true;
-//				if (user[i].getRole().equals("admin")) {
-//					role = "admin";
-//				}else {
-//					role="user";
-//				}
-//			}
-//		}
-
-		if (role != null && !role.trim().isEmpty()) {
-			return role;
-		} else {
-			return null;
-		}
-	}
-
+	
+	//invoke API login method 
 	@Override
 	public String LoginUsersApi(String username, String password) throws Exception {
 		try {
@@ -143,7 +103,6 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 
 //			String url = "http://localhost:3000/api/getUsersList";
 			String url = "https://hiruwaterbottlesystemapi.herokuapp.com/api/getUsersList";
-//			String url="https://clbnodermiuserapi.herokuapp.com/api/userdetails?uname=";
 			URL obj = new URL(url);
 
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -169,8 +128,6 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 
 			for (int i = 1; i < jArray.length(); i++) {
 				JSONObject jObject = jArray.getJSONObject(i);
-//				System.out.println(jObject.getString("userID") + " " + jObject.getString("uName") + " "
-//						+ jObject.getString("role"));
 			}
 
 			return jArray.toString();
@@ -180,6 +137,8 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 		}
 	}
 
+	
+	//get user details from api
 	@Override
 	public String getUserDetails(String uname) throws Exception {
 
@@ -273,4 +232,27 @@ public class UserEventsC extends UnicastRemoteObject implements UsersEvents_Inte
 		}
 
 	}
+	
+//	@Override
+//	public String Login(String username, String password) throws Exception {
+////		System.out.println("user :" + username + " password : " + password);
+//		Boolean resulte = false;
+//		String role = null;
+//		mapper = new ObjectMapper();
+//		UserBean userbean = new UserBean();
+//
+//		userbean.setUname(username);
+//		userbean.setPassword(password);
+//
+//		userbean = dao.loginCheck(userbean);
+//
+//		System.out.println("ub : " + userbean.getRole());
+//		role = userbean.getRole();
+//
+//		if (role != null && !role.trim().isEmpty()) {
+//			return role;
+//		} else {
+//			return null;
+//		}
+//	}
 }

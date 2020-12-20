@@ -20,10 +20,13 @@ public class FeedBackDao {
 	private Connection conn;
 	private ObjectMapper mapper = new ObjectMapper();
 
+	
+//	this is the class where all the SQL methods are implemented relevant to feedbacks
 	public FeedBackDao() {
 		conn = ConnectionProvider.getConnection();
 	}
 
+	//insert feedback to table
 	public Boolean addFeedBack(String type, String question, String answers, int order,boolean status) {
 		PreparedStatement ps = null;
 
@@ -56,6 +59,7 @@ public class FeedBackDao {
 		}
 	}
 
+	//edit feedbacks question and answers
 	public Boolean editFeedBack(int qId, String type, String question, String answers, int order, boolean status) {
 		PreparedStatement ps = null;
 
@@ -87,6 +91,7 @@ public class FeedBackDao {
 		}
 	}
 
+	//insert user submitted feedbacks
 	public Boolean addClientFeedBack(String uid, String QA) {
 		String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH.mm.ss").format(new Date());
 		PreparedStatement ps = null;
@@ -112,6 +117,7 @@ public class FeedBackDao {
 		}
 	}
 
+	//get all feedback questions
 	public List<FeedBackBean> getAllFeedbacks(Boolean status) {
 		List<FeedBackBean> QaA = new ArrayList<FeedBackBean>();
 		PreparedStatement ps = null;

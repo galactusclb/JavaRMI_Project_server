@@ -28,18 +28,18 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 	private FeedBackDao dao;
 	private ObjectMapper mapper = new ObjectMapper();
 
+	
+//	this is the class where all the feedbacks methods are implemented 
 	protected FeedBakc() throws RemoteException {
 		super();
+		
+		//get the database connection from connection provide class
 		dao = new FeedBackDao();
 	}
 
 	@Override
 	public List<FeedBackBean> getFeedBack() throws RemoteException {
 		List<FeedBackBean> modal1 = null;
-//		modal1 = dao.getAllFeedbacks();
-//		for (FeedBackBean fb : modal1) {
-//			System.out.println("  type : " + fb.getType());
-//		}
 		return modal1;
 	}
 
@@ -68,6 +68,32 @@ public class FeedBakc<K> extends UnicastRemoteObject implements FeedBackI {
 	}
 	
 	
+	//get all feedbacks
+	@SuppressWarnings("unchecked")
+	@Override
+	public String getAllFeedBack() throws Exception {
+		System.out.println("Static Polymorphism.");
+		List<FeedBackBean> modal = null;
+
+		JSONArray objArray = new JSONArray();
+		String response = null;
+
+		modal = dao.getAllFeedbacks(false);
+		for (FeedBackBean fb : modal) {
+			JSONObject subObj = new JSONObject();
+//			System.out.println("  type : " + fb.getType());
+			subObj.put("_id", fb.get_id());
+			subObj.put("type", fb.getType());
+			subObj.put("question", fb.getQuestion());
+			subObj.put("answers", fb.getAnswers());
+			subObj.put("order", fb.getOrder());
+
+			objArray.add(subObj);
+
+		}
+		response = objArray.toString();
+		return response;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

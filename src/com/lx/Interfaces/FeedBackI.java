@@ -8,7 +8,7 @@ import com.lx.Beans.FeedBackBean;
 public interface FeedBackI extends Remote{
 	public List<FeedBackBean> getFeedBack() throws Exception;
 	
-//	public String getAllFeedBack() throws Exception;
+	public String getAllFeedBack() throws Exception;
 	
 	public String getAllFeedBack(Boolean status) throws Exception;
 	

@@ -10,6 +10,7 @@ import com.lx.DbConnection.ConnectionProvider;
 public class UserDao {
 	private Connection conn;
 
+	//this is the class where user SQL methods are implemented 
 	public UserDao() {
 		conn = ConnectionProvider.getConnection();
 	}
